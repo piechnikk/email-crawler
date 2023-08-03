@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email crawler</title>
+    <script src="https://unpkg.com/jquery"></script>
+    <style>
+        th {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="table1">
+        <tr>
+            <th>links:</th>
+        </tr>
+    </table>
+    <br />
+    <table id="table2">
+        <tr>
+            <th>emails:</th>
+        </tr>
+    </table>
+</body>
+
+<script>
+    let target = window.prompt("Enter site to search: ")
+    let maile = []
+    let linki = []
+    $.ajax({
+        url: "ajax.php",
+        dataType: "json",
+        data: { target: target, number: 3 }
+    })
+        .done(function (msg) {
+            // console.log("success", msg);
+            msg[0].forEach(element => {
+                element.forEach(mail => {
+                    maile.push(mail);
+                });
+            });
+            msg[1].forEach(link => {
+                linki.push(link);
+            });
+            console.log(maile, linki);
+            let table1 = document.getElementById("table1")
+            let table2 = document.getElementById("table2")
+            linki.forEach(element => {
+                let tr = document.createElement("tr")
+                let td = document.createElement("td")
+                td.innerText = element
+                tr.appendChild(td)
+                table1.appendChild(tr)
+            });
+            maile.forEach(element => {
+                let tr = document.createElement("tr")
+                let td = document.createElement("td")
+                td.innerText = element
+                tr.appendChild(td)
+                table2.appendChild(tr)
+            });
+        })
+</script>
+
+</html>
